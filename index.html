@@ -1,0 +1,1987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scommessa Intelligente — Meta Ads Strategy | Performance Max</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  :root {
+    --ink:        #f5f2ee;
+    --ink-2:      #ede9e3;
+    --ink-3:      #e4dfd7;
+    --wire:       rgba(60,50,40,0.12);
+    --wire-2:     rgba(60,50,40,0.06);
+    --white:      #1a1612;
+    --white-dim:  rgba(26,22,18,0.62);
+    --white-faint:rgba(26,22,18,0.35);
+    --gold:       #8a6a2e;
+    --gold-dim:   rgba(138,106,46,0.14);
+    --gold-faint: rgba(138,106,46,0.07);
+    --teal:       #1a7a6e;
+    --teal-dim:   rgba(26,122,110,0.12);
+    --red:        #c0392b;
+    --red-dim:    rgba(192,57,43,0.09);
+    --mono: 'Inter', sans-serif;
+    --sans: 'Inter', sans-serif;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--mono);
+    background: var(--ink);
+    color: var(--white);
+    overflow-x: hidden;
+    line-height: 1.65;
+    font-size: 15px;
+  }
+
+  /* subtle grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    height: 56px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px;
+    background: rgba(245,242,238,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--wire);
+  }
+
+  .nav-logo {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--white);
+    text-decoration: none;
+    display: flex; align-items: center; gap: 10px;
+  }
+
+  .nav-logo-dot {
+    width: 6px; height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    animation: blink 2.4s ease-in-out infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+  }
+
+  .nav-links {
+    display: flex; gap: 32px; list-style: none;
+  }
+
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--white-dim);
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--white); }
+
+  .nav-chip {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid rgba(200,169,110,0.35);
+    padding: 4px 12px;
+    border-radius: 2px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 140px 48px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(138,106,46,0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(138,106,46,0.07) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: -120px; right: -180px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(138,106,46,0.08) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .hero-glow-2 {
+    position: absolute;
+    bottom: -200px; left: 20%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(26,122,110,0.05) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 28px;
+    display: flex; align-items: center; gap: 12px;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    width: 32px; height: 1px;
+    background: var(--gold);
+    opacity: 0.5;
+  }
+
+  .hero h1 {
+    font-family: var(--sans);
+    font-size: clamp(40px, 6vw, 80px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 28px;
+    max-width: 820px;
+  }
+
+  .hero h1 .accent { color: var(--gold); }
+
+  .hero-sub {
+    font-family: var(--mono);
+    font-size: 16px;
+    color: var(--white-dim);
+    max-width: 560px;
+    line-height: 1.75;
+    margin-bottom: 60px;
+    font-weight: 400;
+  }
+
+  .hero-stats {
+    display: flex; gap: 0;
+    border: 1px solid var(--wire);
+    width: fit-content;
+  }
+
+  .hero-stat {
+    padding: 20px 32px;
+    border-right: 1px solid var(--wire);
+    display: flex; flex-direction: column; gap: 4px;
+  }
+
+  .hero-stat:last-child { border-right: none; }
+
+  .hero-stat-val {
+    font-family: var(--sans);
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: -0.03em;
+  }
+
+  .hero-stat-val .unit { font-size: 16px; color: var(--gold); }
+
+  .hero-stat-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--white-faint);
+  }
+
+  .hero-version {
+    position: absolute;
+    bottom: 80px; right: 48px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--white-faint);
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+  }
+
+  /* ── LAYOUT ── */
+  .section {
+    padding: 96px 48px;
+    position: relative;
+  }
+
+  .section-inner {
+    max-width: 1100px;
+  }
+
+  .rule {
+    height: 1px;
+    background: var(--wire);
+    margin: 0 48px;
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+
+  .eyebrow::before {
+    content: '';
+    width: 20px; height: 1px;
+    background: var(--gold);
+    opacity: 0.5;
+  }
+
+  h2 {
+    font-family: var(--sans);
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    margin-bottom: 16px;
+  }
+
+  .section-lead {
+    font-family: var(--mono);
+    font-size: 15px;
+    color: var(--white-dim);
+    max-width: 600px;
+    line-height: 1.75;
+    margin-bottom: 56px;
+    font-weight: 400;
+  }
+
+  /* ── POLICY ALERT ── */
+  .policy-alert {
+    background: var(--red-dim);
+    border: 1px solid rgba(248,113,113,0.25);
+    padding: 32px;
+    margin-bottom: 48px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  .policy-alert-icon {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--red);
+    white-space: nowrap;
+    padding-top: 2px;
+  }
+
+  .policy-alert h3 {
+    font-family: var(--sans);
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--white);
+  }
+
+  .policy-alert p {
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--white-dim);
+    line-height: 1.75;
+    font-weight: 400;
+  }
+
+  .policy-alert p + p { margin-top: 10px; }
+
+  /* ── DECISION GRID ── */
+  .decision-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    border: 1px solid var(--wire);
+  }
+
+  .decision-row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    border-bottom: 1px solid var(--wire);
+  }
+
+  .decision-row:last-child { border-bottom: none; }
+
+  .decision-tag-col {
+    padding: 28px 28px;
+    border-right: 1px solid var(--wire);
+    background: var(--wire-2);
+    display: flex; flex-direction: column; gap: 10px;
+  }
+
+  .decision-chip {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--teal);
+    border: 1px solid rgba(45,212,191,0.25);
+    background: var(--teal-dim);
+    padding: 3px 9px;
+    border-radius: 2px;
+    width: fit-content;
+  }
+
+  .decision-tag-col h3 {
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--white);
+    line-height: 1.35;
+  }
+
+  .decision-body {
+    padding: 28px 32px;
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--white-dim);
+    line-height: 1.75;
+    font-weight: 400;
+  }
+
+  /* ── CARDS ── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--wire);
+    border: 1px solid var(--wire);
+  }
+
+  .card {
+    background: var(--ink);
+    padding: 32px;
+    display: flex; flex-direction: column; gap: 14px;
+    transition: background 0.2s;
+  }
+
+  .card:hover { background: var(--ink-3); }
+
+  .card-icon {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--wire);
+  }
+
+  .card h3 {
+    font-family: var(--sans);
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--white);
+  }
+
+  .card p {
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--white-dim);
+    line-height: 1.7;
+    font-weight: 400;
+  }
+
+  /* ── AUDIENCE SPLIT ── */
+  .audience-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .audience-card {
+    border: 1px solid var(--wire);
+    padding: 36px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .audience-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+
+  .audience-card.primary::before { background: var(--gold); }
+  .audience-card.secondary::before { background: var(--teal); }
+
+  .audience-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .audience-card.primary .audience-label { color: var(--gold); }
+  .audience-card.secondary .audience-label { color: var(--teal); }
+
+  .audience-card h3 {
+    font-family: var(--sans);
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+
+  .audience-card .age {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--white-faint);
+    margin-bottom: 20px;
+    letter-spacing: 0.06em;
+  }
+
+  .audience-card p {
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--white-dim);
+    line-height: 1.75;
+    font-weight: 400;
+  }
+
+  .interest-tags {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-top: 20px;
+  }
+
+  .interest-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--white-faint);
+    border: 1px solid var(--wire);
+    padding: 4px 10px;
+    border-radius: 2px;
+  }
+
+  /* ── CREATIVE HOOKS ── */
+  .hooks-list {
+    display: flex; flex-direction: column; gap: 0;
+    border: 1px solid var(--wire);
+  }
+
+  .hook-item {
+    display: grid;
+    grid-template-columns: 48px 1fr auto;
+    align-items: center;
+    border-bottom: 1px solid var(--wire);
+    padding: 0;
+    transition: background 0.2s;
+  }
+
+  .hook-item:last-child { border-bottom: none; }
+  .hook-item:hover { background: var(--ink-3); }
+
+  .hook-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--white-faint);
+    text-align: center;
+    padding: 20px 0;
+    border-right: 1px solid var(--wire);
+  }
+
+  .hook-text {
+    font-family: var(--sans);
+    font-size: 15px;
+    font-style: italic;
+    color: var(--white);
+    padding: 20px 24px;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  .hook-angle {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    padding: 20px 24px;
+    white-space: nowrap;
+    border-left: 1px solid var(--wire);
+    min-width: 160px;
+    text-align: right;
+  }
+
+  .no-go-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 12px;
+    margin-top: 32px;
+  }
+
+  .no-go-item {
+    display: flex; gap: 12px; align-items: flex-start;
+    background: var(--red-dim);
+    border: 1px solid rgba(248,113,113,0.15);
+    padding: 14px 16px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--white-dim);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  .no-go-item::before {
+    content: '✕';
+    color: var(--red);
+    font-size: 11px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  /* ── OPTIMISATION LADDER ── */
+  .ladder {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: 1px solid var(--wire);
+  }
+
+  .ladder-step {
+    padding: 32px 28px;
+    border-right: 1px solid var(--wire);
+    position: relative;
+  }
+
+  .ladder-step:last-child { border-right: none; }
+
+  .ladder-step::after {
+    content: '→';
+    position: absolute;
+    right: -14px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: var(--gold);
+    opacity: 0.5;
+    z-index: 1;
+  }
+
+  .ladder-step:last-child::after { display: none; }
+
+  .ladder-period {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--white-faint);
+    margin-bottom: 12px;
+  }
+
+  .ladder-event {
+    font-family: var(--sans);
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+
+  .ladder-step:nth-child(1) .ladder-event { color: var(--gold); }
+  .ladder-step:nth-child(2) .ladder-event { color: var(--teal); }
+  .ladder-step:nth-child(3) .ladder-event { color: var(--white); }
+
+  .ladder-condition {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--white-faint);
+    padding: 4px 8px;
+    border: 1px solid var(--wire);
+    display: inline-block;
+    margin-bottom: 12px;
+  }
+
+  .ladder-desc {
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--white-dim);
+    line-height: 1.7;
+    font-weight: 400;
+  }
+
+  /* ── BUDGET TABLE ── */
+  .budget-phases {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+
+  .budget-phase {
+    border: 1px solid var(--wire);
+    overflow: hidden;
+  }
+
+  .budget-phase-head {
+    padding: 20px 24px;
+    background: var(--gold-dim);
+    border-bottom: 1px solid var(--wire);
+    display: flex; justify-content: space-between; align-items: baseline;
+  }
+
+  .budget-phase-name {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .budget-phase-total {
+    font-family: var(--sans);
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--white);
+  }
+
+  .budget-phase-total span {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--white-faint);
+  }
+
+  .budget-line {
+    display: flex; justify-content: space-between;
+    padding: 12px 24px;
+    border-bottom: 1px solid var(--wire-2);
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+
+  .budget-line:last-child { border-bottom: none; }
+  .budget-line-name { color: var(--white-dim); font-weight: 400; }
+  .budget-line-amt { color: var(--white); font-weight: 500; }
+  .budget-line-amt.held { color: var(--gold); }
+
+  /* ── TRACKING CHECKLIST ── */
+  .checklist {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--wire);
+    border: 1px solid var(--wire);
+  }
+
+  .check-item {
+    background: var(--ink);
+    padding: 20px 24px;
+    display: flex; gap: 16px; align-items: flex-start;
+  }
+
+  .check-box {
+    width: 18px; height: 18px;
+    border: 1px solid var(--teal);
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    margin-top: 1px;
+  }
+
+  .check-box::after {
+    content: '';
+    width: 8px; height: 5px;
+    border-left: 1.5px solid var(--teal);
+    border-bottom: 1.5px solid var(--teal);
+    transform: rotate(-45deg) translateY(-1px);
+  }
+
+  .check-text {
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--white);
+    line-height: 1.5;
+  }
+
+  .check-text span {
+    display: block;
+    font-size: 13px;
+    color: var(--white-faint);
+    margin-top: 3px;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  /* ── KPI GRID ── */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1px;
+    background: var(--wire);
+    border: 1px solid var(--wire);
+  }
+
+  .kpi-card {
+    background: var(--ink);
+    padding: 24px 20px;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+
+  .kpi-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--white-faint);
+  }
+
+  .kpi-value {
+    font-family: var(--sans);
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: -0.03em;
+  }
+
+  .kpi-note {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--white-faint);
+    line-height: 1.5;
+    font-weight: 400;
+  }
+
+  /* ── PHASE POA ── */
+  .phase-block {
+    margin-bottom: 40px;
+    border: 1px solid var(--wire);
+  }
+
+  .phase-head {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 28px;
+    background: var(--gold-dim);
+    border-bottom: 1px solid var(--wire);
+  }
+
+  .phase-head h3 {
+    font-family: var(--sans);
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--white);
+  }
+
+  .phase-days {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid rgba(200,169,110,0.3);
+    padding: 4px 12px;
+  }
+
+  .phase-intro {
+    padding: 16px 28px;
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--white-dim);
+    background: var(--wire-2);
+    border-bottom: 1px solid var(--wire);
+    line-height: 1.7;
+    font-weight: 400;
+  }
+
+  .task-list { list-style: none; }
+
+  .task-item {
+    display: grid;
+    grid-template-columns: 44px 1fr 180px;
+    border-bottom: 1px solid var(--wire-2);
+    align-items: start;
+  }
+
+  .task-item:last-child { border-bottom: none; }
+
+  .task-num {
+    padding: 16px 0 16px 28px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--white-faint);
+    letter-spacing: 0.06em;
+  }
+
+  .task-content { padding: 16px 20px; }
+
+  .task-title {
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--white);
+    margin-bottom: 4px;
+    line-height: 1.4;
+  }
+
+  .task-desc {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--white-dim);
+    line-height: 1.65;
+    font-weight: 400;
+  }
+
+  .task-owner {
+    padding: 16px 28px 16px 0;
+    text-align: right;
+  }
+
+  .task-owner strong {
+    display: block;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 3px;
+  }
+
+  .task-owner span {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--white-faint);
+    font-weight: 300;
+  }
+
+  .phase-criteria {
+    padding: 14px 28px;
+    background: rgba(45,212,191,0.04);
+    border-top: 1px solid rgba(45,212,191,0.12);
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--white-dim);
+    line-height: 1.7;
+    font-weight: 400;
+  }
+
+  .phase-criteria strong {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-right: 8px;
+  }
+
+  /* ── GEO SPLIT ── */
+  .geo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .geo-card {
+    border: 1px solid var(--wire);
+    padding: 28px;
+  }
+
+  .geo-region {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .geo-card h3 {
+    font-family: var(--sans);
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+  }
+
+  .geo-budget {
+    font-family: var(--sans);
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 20px;
+    letter-spacing: -0.02em;
+  }
+
+  .geo-budget span {
+    font-size: 13px;
+    color: var(--white-faint);
+  }
+
+  .geo-detail {
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--white-dim);
+    line-height: 1.75;
+    font-weight: 400;
+  }
+
+  .geo-countries {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-top: 16px;
+  }
+
+  .geo-country {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--white-faint);
+    border: 1px solid var(--wire);
+    padding: 4px 10px;
+  }
+
+  /* ── RULE LIST ── */
+  .rule-list {
+    list-style: none;
+    display: flex; flex-direction: column; gap: 0;
+    border: 1px solid var(--wire);
+  }
+
+  .rule-item {
+    display: flex; gap: 16px;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--wire-2);
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--white-dim);
+    line-height: 1.7;
+    font-weight: 400;
+    transition: background 0.2s;
+  }
+
+  .rule-item:last-child { border-bottom: none; }
+  .rule-item:hover { background: var(--ink-3); }
+
+  .rule-item::before {
+    content: '//';
+    color: var(--gold);
+    font-size: 11px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    opacity: 0.7;
+  }
+
+  /* ── CALLOUT ── */
+  .callout {
+    background: var(--gold-faint);
+    border-left: 2px solid var(--gold);
+    padding: 18px 24px;
+    margin-top: 20px;
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--white-dim);
+    line-height: 1.75;
+    font-weight: 400;
+  }
+
+  .callout strong { color: var(--white); font-style: normal; }
+
+  /* ── LTV BOX ── */
+  .ltv-box {
+    border: 1px solid var(--wire);
+    padding: 36px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    margin-top: 32px;
+  }
+
+  .ltv-item {
+    padding: 0 32px;
+    border-right: 1px solid var(--wire);
+    display: flex; flex-direction: column; gap: 6px;
+  }
+
+  .ltv-item:first-child { padding-left: 0; }
+  .ltv-item:last-child { border-right: none; }
+
+  .ltv-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--white-faint);
+  }
+
+  .ltv-val {
+    font-family: var(--sans);
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--gold);
+    letter-spacing: -0.03em;
+  }
+
+  .ltv-note {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--white-faint);
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink-2);
+    border-top: 1px solid var(--wire);
+    padding: 40px 48px;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 16px;
+  }
+
+  .footer-brand {
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--white);
+  }
+
+  .footer-brand span { color: var(--gold); }
+
+  .footer-meta {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--white-faint);
+    text-align: right;
+    line-height: 1.7;
+    font-weight: 400;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 860px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .section, .hero { padding: 80px 24px; }
+    .rule { margin: 0 24px; }
+    footer { padding: 32px 24px; }
+    .audience-grid, .geo-grid, .budget-phases { grid-template-columns: 1fr; }
+    .ladder { grid-template-columns: 1fr; }
+    .ladder-step { border-right: none; border-bottom: 1px solid var(--wire); }
+    .ladder-step::after { content: '↓'; right: auto; bottom: -14px; top: auto; left: 28px; transform: none; }
+    .ladder-step:last-child { border-bottom: none; }
+    .decision-row { grid-template-columns: 1fr; }
+    .decision-tag-col { border-right: none; border-bottom: 1px solid var(--wire); }
+    .task-item { grid-template-columns: 36px 1fr; }
+    .task-owner { display: none; }
+    .hero-stats { flex-direction: column; gap: 0; width: 100%; }
+    .hero-stat { border-right: none; border-bottom: 1px solid var(--wire); }
+    .checklist { grid-template-columns: 1fr; }
+    .ltv-box { grid-template-columns: 1fr; gap: 24px; }
+    .ltv-item { padding: 0; border-right: none; border-bottom: 1px solid var(--wire); padding-bottom: 20px; }
+    .ltv-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .hook-item { grid-template-columns: 40px 1fr; }
+    .hook-angle { display: none; }
+    footer { flex-direction: column; align-items: flex-start; }
+    .footer-meta { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <span class="nav-logo-dot"></span>
+    PERFORMANCE MAX
+  </a>
+  <ul class="nav-links">
+    <li><a href="#strategy">Strategy</a></li>
+    <li><a href="#creative">Creative</a></li>
+    <li><a href="#tracking">Tracking</a></li>
+    <li><a href="#budget">Budget</a></li>
+    <li><a href="#poa">90-Day POA</a></li>
+    <li><a href="#kpis">KPIs</a></li>
+  </ul>
+  <span class="nav-chip">v1.0 · 2026</span>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow-2"></div>
+
+  <div class="hero-eyebrow">Performance Max × Scommessa Intelligente · Meta Ads Strategy</div>
+  <h1>AI Sports Analytics.<br><span class="accent">Meta Ads</span><br>Plan of Action.</h1>
+  <p class="hero-sub">A 90-day full-funnel paid acquisition strategy for Europe and North America. Built on data, structured for scale, designed to convert analytical sports fans into paying subscribers.</p>
+
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-val"><span class="unit">€</span>50</span>
+      <span class="hero-stat-label">Daily Budget</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-val">2</span>
+      <span class="hero-stat-label">Active Campaigns (Phase 1)</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-val">90</span>
+      <span class="hero-stat-label">Day Execution Plan</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-val"><span class="unit">€</span>1</span>
+      <span class="hero-stat-label">Trial Price Point</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-val">71<span class="unit">%</span></span>
+      <span class="hero-stat-label">Platform Accuracy to Lead With</span>
+    </div>
+  </div>
+
+  <div class="hero-version">Scommessa Intelligente · EU + NA · Meta Only · April 2026</div>
+</section>
+
+<div class="rule"></div>
+
+<!-- BASELINE FROM EXISTING ACCOUNT -->
+<section class="section" id="strategy">
+  <div class="section-inner">
+    <div class="eyebrow">Existing Account Baseline</div>
+    <h2>What the data<br>already tells us.</h2>
+    <p class="section-lead">The account has been running. Purchases are being tracked. The pixel is firing. We are not starting from zero — we are starting from a platform that has already proven it can convert. The job now is to make it convert profitably and at scale.</p>
+
+    <div class="decision-grid">
+      <div class="decision-row">
+        <div class="decision-tag-col">
+          <span class="decision-chip">Finding 1</span>
+          <h3>Purchases Are Converting at €23 to €45 CPP</h3>
+        </div>
+        <div class="decision-body">
+          Two purchase-optimised campaigns generated 11 tracked pixel purchases across €369 of combined spend. Cost per purchase ranged from €23.73 on the best-performing campaign to €45.43 on the Italian-targeted campaign. At a €1 trial price point, these CPPs are too high to be profitable — but they confirm the funnel works end to end. The pixel fires, the payment goes through, and Meta can find buyers. The task is to bring CPP down, not prove it can happen.
+        </div>
+      </div>
+      <div class="decision-row">
+        <div class="decision-tag-col">
+          <span class="decision-chip">Finding 2</span>
+          <h3>Video Creative Drove the Highest Volume</h3>
+        </div>
+        <div class="decision-body">
+          The WebSite_CBO campaign generated 61,673 video ThruPlay completions at €0.004 each on €236 of spend. This is strong signal that video content is engaging the right audience and completing. However, ThruPlay volume alone does not convert to purchases — the retargeting bridge between video viewers and the purchase funnel needs to be built deliberately and tested.
+        </div>
+      </div>
+      <div class="decision-row">
+        <div class="decision-tag-col">
+          <span class="decision-chip">Finding 3</span>
+          <h3>Traffic Was Cheap But Disconnected from Purchase</h3>
+        </div>
+        <div class="decision-body">
+          Traffic campaigns generated over 5,500 link clicks and 1,400 landing page views at €0.02 to €0.07 per click across €265 of combined spend. Cheap traffic with no direct line to purchases means the funnel is leaking between click and conversion. Either the landing page is not converting, the audience is not qualified, or the remarketing layer that should have caught these visitors was never built. This gap is the primary structural fix in the new strategy.
+        </div>
+      </div>
+      <div class="decision-row">
+        <div class="decision-tag-col">
+          <span class="decision-chip">Finding 4</span>
+          <h3>Three Campaigns Spent With No Results Recorded</h3>
+        </div>
+        <div class="decision-body">
+          Purchase_COB spent €58.92 and IT Sale R5/R6/R7 spent €140.37 with zero results recorded. That is €199 of spend with no trackable outcome. The most likely cause is a tracking gap — pixel events not firing correctly on those specific campaigns or attribution windows set up inconsistently. Fixing the tracking foundation before relaunch is non-negotiable.
+        </div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top: 0;">
+      <strong>Total existing spend: €1,112 · Total reach: 202,048 · Tracked purchases: 11 · Untracked spend: €199.</strong> The account has traction. The strategy from here is consolidation, tracking integrity, and a funnel structure that connects traffic volume to purchase conversion efficiently.
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- WHAT WE'RE KEEPING -->
+<section class="section">
+  <div class="section-inner">
+    <div class="eyebrow">Strategic Foundation</div>
+    <h2>The principles<br>we build on.</h2>
+    <p class="section-lead">Same framework as every campaign we run. Phased launch, concentrated budget, pixel warm-up before purchase optimisation, hard gates before remarketing deploys.</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">01 · Structure</div>
+        <h3>Phased Launch Approach</h3>
+        <p>Prospecting runs first. Remarketing only activates once the warm audience is large enough to actually serve ads against. No skipping steps to chase volume that isn't there yet.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">02 · Algorithm</div>
+        <h3>Advantage+ Audience Targeting</h3>
+        <p>New pixel, no data. Letting Meta's algorithm find its own audience outperforms manual interest stacking every time on a clean account. We seed it with interest signals and let it work.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">03 · Budget</div>
+        <h3>Concentrated Ad Sets</h3>
+        <p>Fewer, better-funded campaigns so each has a realistic chance of generating the event volume needed to exit learning. Spreading thin guarantees learning phase lock indefinitely.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">04 · Pixel</div>
+        <h3>Optimisation Ladder</h3>
+        <p>Lead to Registration to Purchase. A new pixel needs signal volume before it can find buyers. Rushing straight to Purchase optimisation on a cold account burns budget without direction.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">05 · Scaling</div>
+        <h3>Incremental Budget Increases</h3>
+        <p>20 to 30% increases only, and only when CPA data justifies it. No large jumps that reset the learning phase and force the algorithm to start over from scratch.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">06 · Discipline</div>
+        <h3>No Changes During Learning Phase</h3>
+        <p>The first 7 to 14 days after any campaign launch or structural change are protected. Impatient edits during learning are the most common way to waste the first month of spend.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- AUDIENCE -->
+<section class="section">
+  <div class="section-inner">
+    <div class="eyebrow">Target Audience</div>
+    <h2>Who we're<br>talking to.</h2>
+    <p class="section-lead">Two distinct audiences, both reachable on Meta. Lead with data and AI framing for analytical sports fans. Layer in sports-interest targeting for the betting-adjacent audience who already understands the value of a statistical edge.</p>
+
+    <div class="audience-grid">
+      <div class="audience-card primary">
+        <div class="audience-label">Primary Target</div>
+        <h3>Analytical Sports Fans</h3>
+        <div class="age">Men 25 to 44 · Europe and North America</div>
+        <p>These are not casual punters. They follow stats. They read match previews. They think about sport in terms of probability rather than fandom. They use fantasy sports apps, follow xG metrics in football, track PER in basketball. They are the kind of person who has a spreadsheet. The platform's 71% accuracy claim and AI methodology are the exact hook that lands with this audience. They understand what that number means.</p>
+        <div class="interest-tags">
+          <span class="interest-tag">Sports Statistics</span>
+          <span class="interest-tag">Fantasy Sports</span>
+          <span class="interest-tag">ESPN / The Athletic</span>
+          <span class="interest-tag">Sports Analytics</span>
+          <span class="interest-tag">AI and Machine Learning</span>
+          <span class="interest-tag">Data Science</span>
+          <span class="interest-tag">Tennis / NBA / NHL</span>
+        </div>
+      </div>
+      <div class="audience-card secondary">
+        <div class="audience-label">Secondary Target</div>
+        <h3>Sports Bettors Seeking an Edge</h3>
+        <div class="age">Men 25 to 45 · Europe and North America</div>
+        <p>Sports bettors who want data behind their decisions rather than gut instinct. They already understand the value of a statistical edge and are actively looking for tools that give them one. The platform's verified accuracy rate is the exact proof point this audience needs. The €1 trial removes any risk from trying it.</p>
+        <div class="interest-tags">
+          <span class="interest-tag">Sports Betting</span>
+          <span class="interest-tag">Value Betting</span>
+          <span class="interest-tag">Matched Betting</span>
+          <span class="interest-tag">Bet365 / Betway</span>
+          <span class="interest-tag">Sports Handicapping</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:24px;">
+      <strong>Key insight:</strong> The €1 trial is one of the lowest-friction conversion offers in any subscription category. The job of the ad is not to sell the subscription. It is to make the product feel credible and intelligent enough that an analytical sports fan wants to see what the AI sees. That is a very winnable brief.
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- GEO STRATEGY -->
+<section class="section">
+  <div class="section-inner">
+    <div class="eyebrow">Geographic Split</div>
+    <h2>Two markets.<br>One clear priority.</h2>
+    <p class="section-lead">Europe and North America run as separate campaigns from day one. Different audience behaviour, different creative language, different performance benchmarks. Italy is the proven home market. North America is the growth opportunity.</p>
+
+    <div class="geo-grid">
+      <div class="geo-card">
+        <div class="geo-region">Campaign A · Primary Market</div>
+        <h3>Europe</h3>
+        <div class="geo-budget">€30 <span>/ day</span></div>
+        <div class="geo-detail">
+          The proven market. The existing account data shows Italian-targeted campaigns were already running and converting. Italian-language creative for Italy. English for UK, Netherlands, and Sweden. Spanish for Spain, German for Germany. Language-localised creative consistently outperforms English-only in Southern and Central Europe. Italy gets the highest budget allocation within Europe given existing purchase history in this market.
+        </div>
+        <div class="geo-countries">
+          <span class="geo-country">🇬🇧 UK</span>
+          <span class="geo-country">🇮🇹 Italy</span>
+          <span class="geo-country">🇩🇪 Germany</span>
+          <span class="geo-country">🇪🇸 Spain</span>
+          <span class="geo-country">🇳🇱 Netherlands</span>
+          <span class="geo-country">🇸🇪 Sweden</span>
+        </div>
+      </div>
+      <div class="geo-card">
+        <div class="geo-region">Campaign B · Growth Market</div>
+        <h3>North America</h3>
+        <div class="geo-budget">€20 <span>/ day</span></div>
+        <div class="geo-detail">
+          High-value growth market with a large sports-obsessed audience and a deeply embedded fantasy sports culture. English creative only. Strong NBA, NHL, and tennis fandom maps directly to the platform's six covered sports. Canada launches alongside the US from day one. Advantage+ audience targeting identifies the data-minded sports fan segment without manual interest stacking on a fresh geo.
+        </div>
+        <div class="geo-countries">
+          <span class="geo-country">🇨🇦 Canada</span>
+          <span class="geo-country">🇺🇸 USA</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- CREATIVE -->
+<section class="section" id="creative">
+  <div class="section-inner">
+    <div class="eyebrow">Creative Strategy</div>
+    <h2>Lead with the<br>intelligence.</h2>
+    <p class="section-lead">The existing account ran video creative at scale and it worked — 61,673 ThruPlay completions at €0.004 each. The creative direction is proven. The gap is connecting that engagement to purchase conversion. Lead with the technology and accuracy. Close with the €1 trial offer.</p>
+
+    <div style="margin-bottom: 48px;">
+      <div class="eyebrow" style="margin-bottom: 20px;">Hook Directions</div>
+      <div class="hooks-list">
+        <div class="hook-item">
+          <span class="hook-num">01</span>
+          <span class="hook-text">"71% accuracy. AI. Six sports. One platform."</span>
+          <span class="hook-angle">Data First</span>
+        </div>
+        <div class="hook-item">
+          <span class="hook-num">02</span>
+          <span class="hook-text">"Our algorithm called 9 of the last 11. Here's how."</span>
+          <span class="hook-angle">Social Proof</span>
+        </div>
+        <div class="hook-item">
+          <span class="hook-num">03</span>
+          <span class="hook-text">"Sports data the way analysts use it. Now available to everyone."</span>
+          <span class="hook-angle">Democratisation</span>
+        </div>
+        <div class="hook-item">
+          <span class="hook-num">04</span>
+          <span class="hook-text">"Stop guessing. Start analysing."</span>
+          <span class="hook-angle">Problem / Solution</span>
+        </div>
+        <div class="hook-item">
+          <span class="hook-num">05</span>
+          <span class="hook-text">"The AI that watches every match so you don't have to."</span>
+          <span class="hook-angle">Curiosity</span>
+        </div>
+        <div class="hook-item">
+          <span class="hook-num">06</span>
+          <span class="hook-text">"Try 7 days for €1. See what the algorithm sees."</span>
+          <span class="hook-angle">Trial Offer</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 48px;">
+      <div class="eyebrow" style="margin-bottom: 16px;">Creative Formats</div>
+      <div class="decision-grid">
+        <div class="decision-row">
+          <div class="decision-tag-col">
+            <span class="decision-chip">Format 1</span>
+            <h3>Short Reels (15 to 30 sec)</h3>
+          </div>
+          <div class="decision-body">Dashboard screen recording showing predictions populating in real time. Accuracy ticker counting up to 71%. Live AI analysis visualisation. No voiceover claiming financial results. The product demonstrates itself. Captions are mandatory as most Meta video is watched without sound.
+          </div>
+        </div>
+        <div class="decision-row">
+          <div class="decision-tag-col">
+            <span class="decision-chip">Format 2</span>
+            <h3>Static: Data Visualisation</h3>
+          </div>
+          <div class="decision-body">Clean, minimal design with the 71% accuracy stat as the hero number. Sport icons. Confidence levels. The aesthetic of a Bloomberg terminal, not a bookmaker. Analytical sports fans respond to visual language that treats them as intelligent data consumers. No loud colours, no flashing odds, no gambling iconography.
+          </div>
+        </div>
+        <div class="decision-row">
+          <div class="decision-tag-col">
+            <span class="decision-chip">Format 3</span>
+            <h3>Carousel: Sport by Sport</h3>
+          </div>
+          <div class="decision-body">One sport per slide. Accuracy per sport. Number of daily predictions. Data methodology shown per discipline. This format naturally targets multi-sport fans and demonstrates the platform's breadth without needing a single line of promotional copy. Each slide is a data point, not a sales message.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="eyebrow" style="margin-bottom: 16px;">What Never Appears in Creative</div>
+      <div class="no-go-list">
+        <div class="no-go-item">Odds in any format (1.85, 2.10, +150)</div>
+        <div class="no-go-item">Win or loss framing in financial terms</div>
+        <div class="no-go-item">Language implying money can be made</div>
+        <div class="no-go-item">The words "bet," "betting," or "wager" in any language</div>
+        <div class="no-go-item">Guaranteed outcome language of any kind</div>
+        <div class="no-go-item">Specific match results framed as financial proof</div>
+        <div class="no-go-item">Fabricated accuracy claims that exceed the verified 71% figure</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- OPTIMISATION LADDER -->
+<section class="section">
+  <div class="section-inner">
+    <div class="eyebrow">Pixel Warm-Up</div>
+    <h2>Optimisation ladder.<br>No shortcuts.</h2>
+    <p class="section-lead">New pixel, zero history. Optimising for Purchase from day one gives the algorithm nothing to work with. The ladder builds signal volume before graduating to the harder event.</p>
+
+    <div class="ladder">
+      <div class="ladder-step">
+        <div class="ladder-period">Weeks 1 to 3</div>
+        <div class="ladder-event">Lead</div>
+        <div class="ladder-condition">Starting event</div>
+        <div class="ladder-desc">Email capture or trial page visit. Lower barrier, builds signal volume fast. Seeds the pixel with real purchase-intent behaviour. Target: 30+ Lead events per week before moving to next stage.</div>
+      </div>
+      <div class="ladder-step">
+        <div class="ladder-period">Weeks 4 to 6</div>
+        <div class="ladder-event">Complete Registration</div>
+        <div class="ladder-condition">Requires: 30+ leads/week</div>
+        <div class="ladder-desc">Trial account creation. Closer to the actual conversion without requiring a completed payment. Moves the signal toward genuine purchase intent as pixel data accumulates.</div>
+      </div>
+      <div class="ladder-step">
+        <div class="ladder-period">Week 7 onwards</div>
+        <div class="ladder-event">Purchase</div>
+        <div class="ladder-condition">Requires: pixel has history</div>
+        <div class="ladder-desc">The €1 trial conversion. By this point the pixel has meaningful registration and lead data to find lookalike buyers. ROAS and CPA become reliable metrics from here.</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>This is not a delay.</strong> This is how Meta's algorithm is designed to be ramped on a new account. Rushing to Purchase optimisation on a cold pixel is how accounts burn their first month of budget with nothing to show for it.
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- TRACKING -->
+<section class="section" id="tracking">
+  <div class="section-inner">
+    <div class="eyebrow">Tracking Foundation</div>
+    <h2>Verified before<br>anything goes live.</h2>
+    <p class="section-lead">Every item below is confirmed and signed off before any campaign launches. Broken tracking means every decision made from the data is built on fiction.</p>
+
+    <div class="checklist">
+      <div class="check-item">
+        <div class="check-box"></div>
+        <div class="check-text">
+          Meta Pixel installed on all key pages
+          <span>Homepage, trial page, registration, account confirmation. All confirmed firing in Events Manager.</span>
+        </div>
+      </div>
+      <div class="check-item">
+        <div class="check-box"></div>
+        <div class="check-text">
+          Standard Events verified and mapping correctly
+          <span>ViewContent, Lead, CompleteRegistration, Subscribe (mapped to €1 trial payment). All five firing clean.</span>
+        </div>
+      </div>
+      <div class="check-item">
+        <div class="check-box"></div>
+        <div class="check-text">
+          Conversions API (CAPI) implemented server-side
+          <span>Required for iOS 14+ signal recovery. Deduplication logic confirmed to avoid double-counting events.</span>
+        </div>
+      </div>
+      <div class="check-item">
+        <div class="check-box"></div>
+        <div class="check-text">
+          UTM parameters applied to all ad URLs
+          <span>Source, medium, campaign, content, term. Documented in UTM guide shared with client.</span>
+        </div>
+      </div>
+      <div class="check-item">
+        <div class="check-box"></div>
+        <div class="check-text">
+          GA4 receiving traffic and matching Meta reporting
+          <span>Cross-referenced against Meta Ads Manager. Acceptable variance under 15%.</span>
+        </div>
+      </div>
+      <div class="check-item">
+        <div class="check-box"></div>
+        <div class="check-text">
+          End-to-end test conversion completed
+          <span>Full trial signup flow tested with Pixel event confirmed firing at payment confirmation page.</span>
+        </div>
+      </div>
+      <div class="check-item">
+        <div class="check-box"></div>
+        <div class="check-text">
+          GDPR compliance confirmed for EU markets
+          <span>Cookie consent banner active and compliant. Data processing agreements in place for EU audience targeting.</span>
+        </div>
+      </div>
+      <div class="check-item">
+        <div class="check-box"></div>
+        <div class="check-text">
+          All campaigns use consistent naming convention
+          <span>Campaign names, ad set names, and UTMs aligned. Clean account structure makes performance reporting unambiguous from day one.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- BUDGET -->
+<section class="section" id="budget">
+  <div class="section-inner">
+    <div class="eyebrow">Budget Architecture</div>
+    <h2>€50 per day.<br>Every euro tracked.</h2>
+    <p class="section-lead">Two active campaigns in Phase 1. Remarketing budget held in reserve until audience thresholds are met. Split evolves as performance data informs reallocation.</p>
+
+    <div class="budget-phases">
+      <div class="budget-phase">
+        <div class="budget-phase-head">
+          <span class="budget-phase-name">Phase 1: Weeks 1 to 6</span>
+          <span class="budget-phase-total">€50 <span>/ day</span></span>
+        </div>
+        <div class="budget-line">
+          <span class="budget-line-name">Europe Prospecting (Campaign A)<br><small style="font-size:10px;opacity:0.5">1 ad set · Advantage+ · EU geos</small></span>
+          <span class="budget-line-amt">€30/day</span>
+        </div>
+        <div class="budget-line">
+          <span class="budget-line-name">North America Prospecting (Campaign B)<br><small style="font-size:10px;opacity:0.5">1 ad set · Advantage+ · CA + US select</small></span>
+          <span class="budget-line-amt">€20/day</span>
+        </div>
+        <div class="budget-line">
+          <span class="budget-line-name">Remarketing Reserve<br><small style="font-size:10px;opacity:0.5">Held until 1,000 visitor threshold reached</small></span>
+          <span class="budget-line-amt held">€0 · held</span>
+        </div>
+      </div>
+
+      <div class="budget-phase">
+        <div class="budget-phase-head">
+          <span class="budget-phase-name">Phase 2: Weeks 7 to 12</span>
+          <span class="budget-phase-total">€50 <span>/ day</span></span>
+        </div>
+        <div class="budget-line">
+          <span class="budget-line-name">Europe Prospecting</span>
+          <span class="budget-line-amt">€25/day</span>
+        </div>
+        <div class="budget-line">
+          <span class="budget-line-name">North America Prospecting</span>
+          <span class="budget-line-amt">€17/day</span>
+        </div>
+        <div class="budget-line">
+          <span class="budget-line-name">Remarketing: Trial Page Visitors</span>
+          <span class="budget-line-amt">€5/day</span>
+        </div>
+        <div class="budget-line">
+          <span class="budget-line-name">Remarketing: Engaged Audiences</span>
+          <span class="budget-line-amt">€3/day</span>
+        </div>
+      </div>
+    </div>
+
+    <ul class="rule-list">
+      <li class="rule-item">Budget may shift between campaigns by up to 20% autonomously. All changes documented in the weekly snapshot shared with the client.</li>
+      <li class="rule-item">Any campaign with link CTR under 1.0% for 7 consecutive days: creative paused and budget reallocated to top performers. No exceptions.</li>
+      <li class="rule-item">Campaign hitting Cost Per Trial under €8: eligible for a 20 to 30% incremental budget increase. Maximum one increase per 2-week period.</li>
+      <li class="rule-item">Remarketing budget stays at zero until the website custom audience reaches 1,000 unique visitors in a 30-day window. Hard gate, not advisory.</li>
+      <li class="rule-item">No budget changes in the first 7 days after any structural campaign change. Let the algorithm restabilise before reading results.</li>
+    </ul>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- 90-DAY POA -->
+<section class="section" id="poa">
+  <div class="section-inner">
+    <div class="eyebrow">Plan of Action</div>
+    <h2>90 days.<br>No ambiguity.</h2>
+    <p class="section-lead">Three phases. Every task has an owner and a completion criterion. Nothing launches until tracking is verified and policy compliance is confirmed.</p>
+
+    <!-- PHASE 1 -->
+    <div class="phase-block">
+      <div class="phase-head">
+        <h3>Phase 1: Foundation and Pixel Warm-Up</h3>
+        <span class="phase-days">Days 1 to 30</span>
+      </div>
+      <div class="phase-intro">Tracking audit and repair first, then campaign relaunch with consolidated structure. Fix the €199 of untracked spend before adding any new budget. Both campaigns optimise for Lead initially to rebuild pixel signal before graduating to Purchase.</div>
+      <ul class="task-list">
+        <li class="task-item">
+          <span class="task-num">01</span>
+          <div class="task-content">
+            <div class="task-title">Full tracking audit of existing account</div>
+            <div class="task-desc">Diagnose why Purchase_COB (€58.92) and IT Sale R5/R6/R7 (€140.37) recorded zero results despite active spend. Identify pixel misfires, attribution window inconsistencies, and event deduplication issues. Document all findings before any new campaigns launch.</div>
+          </div>
+          <div class="task-owner"><strong>Owner</strong><span>Performance Max</span></div>
+        </li>
+        <li class="task-item">
+          <span class="task-num">02</span>
+          <div class="task-content">
+            <div class="task-title">Attribution windows standardised across all campaigns</div>
+            <div class="task-desc">Existing account ran mixed attribution settings simultaneously. Standardise to 7-day click and 1-day view across all new campaigns. Consistent attribution is required before any performance comparison between campaigns is meaningful.</div>
+          </div>
+          <div class="task-owner"><strong>Owner</strong><span>Performance Max</span></div>
+        </li>
+        <li class="task-item">
+          <span class="task-num">03</span>
+          <div class="task-content">
+            <div class="task-title">Meta Business Manager and Ad Account opened in EUR</div>
+            <div class="task-desc">Account created, billing confirmed in EUR, access shared with client. Account structure set up to allow geo-separated campaigns from launch.</div>
+          </div>
+          <div class="task-owner"><strong>Owner</strong><span>Performance Max</span></div>
+        </li>
+        <li class="task-item">
+          <span class="task-num">04</span>
+          <div class="task-content">
+            <div class="task-title">Meta Pixel installed across all key pages</div>
+            <div class="task-desc">Pixel fires on: homepage, trial landing page, registration page, payment confirmation. All verified in Events Manager before any campaign goes live.</div>
+          </div>
+          <div class="task-owner"><strong>Owner</strong><span>PM + Dev</span></div>
+        </li>
+        <li class="task-item">
+          <span class="task-num">05</span>
+          <div class="task-content">
+            <div class="task-title">Conversions API (CAPI) implemented server-side</div>
+            <div class="task-desc">Server-side event sending for iOS 14+ signal recovery. Deduplication logic confirmed. CAPI events visible and clean in Events Manager.</div>
+          </div>
+          <div class="task-owner"><strong>Owner</strong><span>PM + Dev</span></div>
+        </li>
+        <li class="task-item">
+          <span class="task-num">06</span>
+          <div class="task-content">
+            <div class="task-title">All Standard Events verified with test conversion</div>
+            <div class="task-desc">ViewContent, Lead, CompleteRegistration, Subscribe all confirmed firing. Full trial signup completed end-to-end with Pixel event verified at payment confirmation. Event discrepancy under 10%.</div>
+          </div>
+          <div class="task-owner"><strong>Owner</strong><span>Performance Max</span></div>
+        </li>
+        <li class="task-item">
+          <span class="task-num">07</span>
+          <div class="task-content">
+            <div class="task-title">UTM structure documented and applied</div>
+            <div class="task-desc">UTM guide covering all campaigns documented and shared. Applied to all ad URLs. GA4 confirmed receiving traffic with under 15% variance vs Meta Ads Manager reporting.</div>
+          </div>
+          <div class="task-owner"><strong>Owner</strong><span>Performance Max</span></div>
+        </li>
+        <li class="task-item">
+          <span class="task-num">08</span>
+          <div class="task-content">
+            <div class="task-title">GDPR cookie consent verified for EU targeting</div>
+            <div class="task-desc">Cookie consent banner active and legally compliant across all EU landing pages. Data processing agreements confirmed. Required before any EU campaign serves impressions.</div>
+          </div>
+          <div class="task-owner"><strong>Owner</strong><span>Client + PM</span></div>
+        </li>
+        <li class="task-item">
+          <span class="task-num">09</span>
+          <div class="task-content">
+            <div class="task-title">Creative brief issued: English and localised variants</div>
+            <div class="task-desc">Brief covers English creative for UK, Netherlands, Sweden, Canada, and US. Separate brief for Italian (Italy), Spanish (Spain), and German (Germany) creative. All hooks lead with AI and data framing. No betting language in any variant.</div>
+          </div>
+          <div class="task-owner"><strong>Owner</strong><span>Performance Max</span></div>
+        </li>
+        <li class="task-item">
+          <span class="task-num">10</span>
+          <div class="task-content">
+            <div class="task-title">Creative assets delivered and QA reviewed</div>
+            <div class="task-desc">Minimum: 3 Reels (English), 1 Reel per localised language, 3 statics (English), 1 carousel (sport by sport). All reviewed against policy brief before upload. Any language flagged as potentially gambling-adjacent revised before launch.</div>
+          </div>
+          <div class="task-owner"><strong>Owner</strong><span>Production Team</span></div>
+        </li>
+        <li class="task-item">
+          <span class="task-num">11</span>
+          <div class="task-content">
+            <div class="task-title">Europe Prospecting campaign launched at €30 per day</div>
+            <div class="task-desc">Advantage+ audience, EU geos. Italian-language creative for Italy, English for remaining EU markets. Optimised for Lead. Single ad set to concentrate learning signal. Localised creative sets live per language group.</div>
+          </div>
+          <div class="task-owner"><strong>Owner</strong><span>Performance Max</span></div>
+        </li>
+        <li class="task-item">
+          <span class="task-num">12</span>
+          <div class="task-content">
+            <div class="task-title">North America Prospecting campaign launched at €20 per day</div>
+            <div class="task-desc">Canada full geo. US full geo. Advantage+ audience. English creative only. Optimised for Lead. Separate campaign from Europe to isolate performance data.</div>
+          </div>
+          <div class="task-owner"><strong>Owner</strong><span>Performance Max</span></div>
+        </li>
+        <li class="task-item">
+          <span class="task-num">13</span>
+          <div class="task-content">
+            <div class="task-title">Custom audience pools created</div>
+            <div class="task-desc">Trial page visitors 30-day, registration page visitors 14-day, video viewers 50%+ completion. Audience sizes monitored weekly. Remarketing activates only when 1,000 visitor threshold is reached.</div>
+          </div>
+          <div class="task-owner"><strong>Owner</strong><span>Performance Max</span></div>
+        </li>
+        <li class="task-item">
+          <span class="task-num">14</span>
+          <div class="task-content">
+            <div class="task-title">Week 2 performance snapshot shared with client</div>
+            <div class="task-desc">Early signals only: Lead CPL, CTR, CPM, reach by geo, creative performance ranking. No major decisions made this early. Snapshot is for transparency and anomaly detection.</div>
+          </div>
+          <div class="task-owner"><strong>Owner</strong><span>Performance Max</span></div>
+        </li>
+        <li class="task-item">
+          <span class="task-num">15</span>
+          <div class="task-content">
+            <div class="task-title">Creative review at Day 14: pause underperformers</div>
+            <div class="task-desc">Any creative with CTR under 1.0% at Day 14 is paused. Budget consolidated to top performers. New hook angles briefed based on early engagement data.</div>
+          </div>
+          <div class="task-owner"><strong>Owner</strong><span>Performance Max</span></div>
+        </li>
+        <li class="task-item">
+          <span class="task-num">16</span>
+          <div class="task-content">
+            <div class="task-title">End-of-Phase 1 report delivered</div>
+            <div class="task-desc">Full performance summary: Lead CPL by geo, CTR by creative, CPM, pixel health, audience growth toward remarketing gate, optimisation event graduation decision. Phase 2 plan confirmed.</div>
+          </div>
+          <div class="task-owner"><strong>Owner</strong><span>Performance Max</span></div>
+        </li>
+      </ul>
+      <div class="phase-criteria">
+        <strong>Phase 1 Success Criteria:</strong>
+        Pixel collecting clean data with under 10% event discrepancy · Both campaigns generating Lead events · Cost per Lead under €15 by Week 4 · At least one creative with CTR above 1.0% identified per market · Warm audience growing toward 1,000 visitor threshold
+      </div>
+    </div>
+
+    <!-- PHASE 2 -->
+    <div class="phase-block">
+      <div class="phase-head">
+        <h3>Phase 2: Optimisation Graduation and Remarketing</h3>
+        <span class="phase-days">Days 31 to 60</span>
+      </div>
+      <div class="phase-intro">Shift optimisation event from Lead to CompleteRegistration then toward Purchase. Launch remarketing once the audience gate is cleared. Compare EU vs NA performance and rebalance budget toward the stronger market.</div>
+      <ul class="task-list">
+        <li class="task-item">
+          <span class="task-num">17</span>
+          <div class="task-content">
+            <div class="task-title">Optimisation event graduated to CompleteRegistration</div>
+            <div class="task-desc">Only if 30 or more Lead events per week are confirmed from Phase 1. Do not graduate early. Moving too soon resets the learning signal before it has value.</div>
+          </div>
+          <div class="task-owner"><strong>Owner</strong><span>Performance Max</span></div>
+        </li>
+        <li class="task-item">
+          <span class="task-num">18</span>
+          <div class="task-content">
+            <div class="task-title">Remarketing gate check: audience size confirmed</div>
+            <div class="task-desc">Confirm trial page visitors custom audience has reached 1,000 unique visitors in a 30-day window. If threshold is met, remarketing budget activates. If not, check again at Day 45.</div>
+          </div>
+          <div class="task-owner"><strong>Owner</strong><span>Performance Max</span></div>
+        </li>
+        <li class="task-item">
+          <span class="task-num">19</span>
+          <div class="task-content">
+            <div class="task-title">Remarketing campaigns launched (if gate cleared)</div>
+            <div class="task-desc">Targets trial page visitors who did not convert (7-day window) and video viewers at 50%+ completion. Dynamic creative showing platform features. All purchasers excluded. €8/day split across EU and NA remarketing.</div>
+          </div>
+          <div class="task-owner"><strong>Owner</strong><span>Performance Max</span></div>
+        </li>
+        <li class="task-item">
+          <span class="task-num">20</span>
+          <div class="task-content">
+            <div class="task-title">A/B creative test: data framing vs curiosity hook</div>
+            <div class="task-desc">Test data-first hook ("71% accuracy. AI. Six sports.") against curiosity hook ("The AI that watches every match so you don't have to."). Consistent budget, single isolated variable. Winner identified by Day 55.</div>
+          </div>
+          <div class="task-owner"><strong>Owner</strong><span>Performance Max</span></div>
+        </li>
+        <li class="task-item">
+          <span class="task-num">21</span>
+          <div class="task-content">
+            <div class="task-title">North America vs Europe performance review and budget rebalance</div>
+            <div class="task-desc">Compare CPL, CTR, and CPP between EU and NA campaigns at Day 45. If one market is outperforming significantly, shift budget toward it. Decision documented and shared with client. Informs Phase 3 scaling plan.</div>
+          </div>
+          <div class="task-owner"><strong>Owner</strong><span>Performance Max</span></div>
+        </li>
+        <li class="task-item">
+          <span class="task-num">22</span>
+          <div class="task-content">
+            <div class="task-title">Optimisation event graduated to Purchase (if ready)</div>
+            <div class="task-desc">Pixel has registration volume and the algorithm can find lookalike buyers. Graduate to Purchase optimisation (€1 trial). CPA and ROAS become meaningful metrics from this point forward.</div>
+          </div>
+          <div class="task-owner"><strong>Owner</strong><span>Performance Max</span></div>
+        </li>
+        <li class="task-item">
+          <span class="task-num">23</span>
+          <div class="task-content">
+            <div class="task-title">End-of-Phase 2 report and Phase 3 plan delivered</div>
+            <div class="task-desc">Full ROAS and CPT analysis by geo and campaign. Creative performance ranking. Audience health check. Trial-to-paid conversion rate from client subscription data. Phase 3 scaling recommendation with justification.</div>
+          </div>
+          <div class="task-owner"><strong>Owner</strong><span>Performance Max</span></div>
+        </li>
+      </ul>
+      <div class="phase-criteria">
+        <strong>Phase 2 Success Criteria:</strong>
+        At least one campaign optimising for Purchase · Remarketing live and serving (if threshold met) · Cost Per Trial under €10 · Winning creative per market identified · CPL trending toward target benchmarks
+      </div>
+    </div>
+
+    <!-- PHASE 3 -->
+    <div class="phase-block">
+      <div class="phase-head">
+        <h3>Phase 3: ROAS Efficiency and Scale</h3>
+        <span class="phase-days">Days 61 to 90</span>
+      </div>
+      <div class="phase-intro">90 days of data, a proven creative framework, and a pixel with real purchase history. Phase 3 is where the account earns its value and profitable subscriber acquisition scales.</div>
+      <ul class="task-list">
+        <li class="task-item">
+          <span class="task-num">24</span>
+          <div class="task-content">
+            <div class="task-title">Budget scaling: 20 to 30% increase on winning campaigns</div>
+            <div class="task-desc">Any campaign hitting Cost Per Trial under €8 with stable CPM and consistent conversion rate gets a 20 to 30% incremental budget increase. Maximum one increase per 2-week period to protect learning stability.</div>
+          </div>
+          <div class="task-owner"><strong>Owner</strong><span>Performance Max</span></div>
+        </li>
+        <li class="task-item">
+          <span class="task-num">25</span>
+          <div class="task-content">
+            <div class="task-title">Lookalike audience built from trial subscribers</div>
+            <div class="task-desc">Client exports email list of trial and paid subscribers. Uploaded to Meta as Custom Audience. 1% EU and 1% NA Lookalikes created from this seed. Deployed as new prospecting layer alongside existing Advantage+ campaigns.</div>
+          </div>
+          <div class="task-owner"><strong>Owner</strong><span>Performance Max</span></div>
+        </li>
+        <li class="task-item">
+          <span class="task-num">26</span>
+          <div class="task-content">
+            <div class="task-title">Creative pipeline locked in for ongoing production</div>
+            <div class="task-desc">Minimum 2 new creative concepts per month. Ad frequency above 3.0 triggers a fresh creative brief automatically. Testing calendar documented and shared with client. Winning formats repurposed across new hooks to extend shelf life.</div>
+          </div>
+          <div class="task-owner"><strong>Owner</strong><span>Performance Max</span></div>
+        </li>
+        <li class="task-item">
+          <span class="task-num">27</span>
+          <div class="task-content">
+            <div class="task-title">Trial-to-paid conversion rate analysis with client</div>
+            <div class="task-desc">Cross-reference Meta trial CPL data against client's subscription system to calculate actual trial-to-paid conversion rate. This number recalibrates the effective CPA and informs Phase 4 budget recommendations.</div>
+          </div>
+          <div class="task-owner"><strong>Owner</strong><span>PM + Client</span></div>
+        </li>
+        <li class="task-item">
+          <span class="task-num">28</span>
+          <div class="task-content">
+            <div class="task-title">90-day full strategy review delivered</div>
+            <div class="task-desc">Complete performance audit: what worked, what didn't, CPT and CPA by geo and creative, trial-to-paid conversion rate, audience performance, LTV vs CPA analysis, Month 4 investment recommendation with full justification.</div>
+          </div>
+          <div class="task-owner"><strong>Owner</strong><span>Performance Max</span></div>
+        </li>
+      </ul>
+      <div class="phase-criteria">
+        <strong>Phase 3 Success Criteria:</strong>
+        Cost Per Trial under €8 · Trial-to-paid conversion rate confirmed and documented · Winning creative framework repeatable · Lookalike audiences deployed and generating trial volume · 90-day data package clean and exportable for Month 4 planning
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- KPIs -->
+<section class="section" id="kpis">
+  <div class="section-inner">
+    <div class="eyebrow">KPIs and Benchmarks</div>
+    <h2>What success<br>looks like.</h2>
+    <p class="section-lead">Every benchmark defined before a single euro is spent. These are reviewed at Week 2, Week 4, and the end of each phase.</p>
+
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <span class="kpi-label">Cost Per Trial</span>
+        <span class="kpi-value">≤€8</span>
+        <span class="kpi-note">€1 trial signup. Reviewed and recalibrated after first 30 days of live data.</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Trial to Paid Rate</span>
+        <span class="kpi-value">≥20%</span>
+        <span class="kpi-note">Industry benchmark for low-friction €1 trials. Product retention does this work.</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Effective CPA</span>
+        <span class="kpi-value">≤€40</span>
+        <span class="kpi-note">Cost per paying subscriber after trial conversion is factored in.</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Link CTR</span>
+        <span class="kpi-value">≥1.0%</span>
+        <span class="kpi-note">Creative health indicator. Below 1.0% at Day 14 triggers pause and reallocation.</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Remarketing Gate</span>
+        <span class="kpi-value">1,000</span>
+        <span class="kpi-note">Unique website visitors in 30-day window before remarketing budget deploys.</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Event Discrepancy</span>
+        <span class="kpi-value">&lt;10%</span>
+        <span class="kpi-note">Between Pixel and CAPI. Above this, tracking is flagged and audited before decisions.</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Cost Per Lead</span>
+        <span class="kpi-value">≤€15</span>
+        <span class="kpi-note">Phase 1 proxy metric before Purchase optimisation is active.</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Creative Refresh</span>
+        <span class="kpi-value">Freq 3.0</span>
+        <span class="kpi-note">Ad frequency above 3.0 triggers a new creative brief. Fatigue managed proactively.</span>
+      </div>
+    </div>
+
+    <div class="ltv-box">
+      <div class="ltv-item">
+        <span class="ltv-label">Monthly Subscription</span>
+        <span class="ltv-val">€19.90</span>
+        <span class="ltv-note">Per paying subscriber after trial period</span>
+      </div>
+      <div class="ltv-item">
+        <span class="ltv-label">6-Month LTV</span>
+        <span class="ltv-val">~€120</span>
+        <span class="ltv-note">At average 6-month retention. Payback window is very comfortable at a €40 CPA.</span>
+      </div>
+      <div class="ltv-item">
+        <span class="ltv-label">CPA Headroom</span>
+        <span class="ltv-val">3x</span>
+        <span class="ltv-note">LTV to CPA ratio at target. Strong argument for scaling budget once CPA is confirmed at or below €40.</span>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>The trial price is the strongest asset in this entire strategy.</strong> €1 for 7 days removes almost every barrier to conversion. At this budget in two markets, the account cannot afford to spread thin — every euro goes toward getting analytical sports fans into the trial. Once they're in, the product has to do the retention work.
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">PERFORMANCE <span>MAX</span></div>
+  <div class="footer-meta">
+    Scommessa Intelligente · Meta Ads Strategy v1.0<br>
+    Europe and North America · €50/day · April 2026<br>
+    Performance Max · Built on proven principles
+  </div>
+</footer>
+
+</body>
+</html>
